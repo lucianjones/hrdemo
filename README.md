@@ -41,18 +41,18 @@ HR backend with APIs for Applicants and Notes. Includes endpoints for viewing al
         * POST `/api/applicant/`
         * Requires authenticated user with the `create_applicant` permission
         * Body
-            * `first_name`: `string`
-            * `last_name`: `string`
-            * `email`: `string`
-            * `phone_number`: `string`
-            * `address`: `string`
-            * `zipcode`: `string`
-            * `state`: `string`
+            * `first_name: string`
+            * `last_name: string`
+            * `email: string`
+            * `phone_number: string`
+            * `address: string`
+            * `zipcode: string`
+            * `state: string`
     * Update an applicant's status
         * PUT `/api/applicant/<id>/`
         * Requires authenticated user with the `update_applicant` permission
         * Body
-            * `status`: `string`
+            * `status: string`
             * Valid values are `PENDING` `ACCEPTED` `REJECTED`
     * Delete an applicant
         * DELETE `/api/applicant/<id>/`
@@ -66,6 +66,14 @@ HR backend with APIs for Applicants and Notes. Includes endpoints for viewing al
         * POST `/api/applicant/<applicant_id>/note`
         * Requires authenticated user with the `create_note` permission
         * Body
-            * `title`: `string`
-            * `content`: `string`
+            * `title: string`
+            * `content: `string`
 
+
+## Design Considerations
+
+* Django Rest Framework was chosen due to its adeptness in streamlining the design of RESTful APIs. While not imperative for the current scale of the application, its will help ensure a clean codebase as the project expands.
+
+* A healthcheck was added to the Postgres container as occasionally the DB wouldn't be ready by the time migrations ran on startup. (This is probably just an issue on my personal machine)
+
+* Notes was included as a subsection of the Applicant API based on the simplicity of the application's data models. However, in more intricate applications, it may be worth separating Notes into a standalone module to allow for note-taking functionalities across multiple entities.
