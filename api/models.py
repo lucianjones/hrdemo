@@ -17,7 +17,7 @@ class ApplicantModel(models.Model):
         REJECTED = "REJECTED"
 
     uuid = models.UUIDField(
-        primary_key=True,
+        # primary_key=True,
         db_index=True,
         default=uuid4,
         editable=False,
@@ -52,7 +52,7 @@ class NoteModel(models.Model):
         ]
 
     uuid = models.UUIDField(
-        primary_key=True,
+        # primary_key=True,
         db_index=True,
         default=uuid4,
         editable=False,

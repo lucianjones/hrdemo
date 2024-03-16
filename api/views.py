@@ -44,24 +44,24 @@ class ApplicantDetailApiView(APIView):
     # add permission to check if user is authenticated
     permission_classes = [permissions.IsAuthenticated, ApplicantPermissions]
 
-    def get_object(self, uuid):
+    def get_object(self, id):
         """
-        Helper method to get the object with UUID
+        Helper method to get the object with id
         """
         try:
-            return ApplicantModel.objects.get(uuid=uuid)
+            return ApplicantModel.objects.get(id=id)
         except ApplicantModel.DoesNotExist:
             return None
 
     # 3. Retrieve
-    def get(self, request, uuid, *args, **kwargs):
+    def get(self, request, id, *args, **kwargs):
         """
-        Retrieves the ApplicantModel with given UUID
+        Retrieves the ApplicantModel with given id
         """
-        applicant_instance = self.get_object(uuid)
+        applicant_instance = self.get_object(id)
         if not applicant_instance:
             return Response(
-                {"res": "Object with UUID does not exists"},
+                {"res": "Object with id does not exists"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -69,14 +69,14 @@ class ApplicantDetailApiView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     # 4. Update
-    def put(self, request, uuid, *args, **kwargs):
+    def put(self, request, id, *args, **kwargs):
         """
-        Updates the ApplicantModel with given UUID if exists
+        Updates the ApplicantModel with given id if exists
         """
-        applicant_instance = self.get_object(uuid)
+        applicant_instance = self.get_object(id)
         if not applicant_instance:
             return Response(
-                {"res": "Object with UUID does not exists"},
+                {"res": "Object with id does not exists"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
         data = {"status": request.data.get("status")}
@@ -89,14 +89,14 @@ class ApplicantDetailApiView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     # 5. Delete
-    def delete(self, request, uuid, *args, **kwargs):
+    def delete(self, request, id, *args, **kwargs):
         """
-        Deletes the ApplicantModel with given UUID if exists
+        Deletes the ApplicantModel with given id if exists
         """
-        applicant_instance = self.get_object(uuid)
+        applicant_instance = self.get_object(id)
         if not applicant_instance:
             return Response(
-                {"res": "Object with UUID does not exists"},
+                {"res": "Object with id does not exists"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
         applicant_instance.delete()
@@ -108,23 +108,23 @@ class ApplicantNoteListApiView(APIView):
     permission_classes = [permissions.IsAuthenticated, NotePermissions]
 
     # 1. List all
-    def get(self, request, uuid, *args, **kwargs):
+    def get(self, request, id, *args, **kwargs):
         """
         Return all NoteModels associated with the ApplicantModel of the given
-        UUID
+        id
         """
-        applicant_notes = NoteModel.objects.filter(applicant__uuid=uuid)
+        applicant_notes = NoteModel.objects.filter(applicant__id=id)
         serializer = NoteSerializer(applicant_notes, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     # 2. Create
-    def post(self, request, uuid, *args, **kwargs):
+    def post(self, request, id, *args, **kwargs):
         """
         Creates a NoteModel associated with the ApplicantModel of the given
-        UUID
+        id
         """
         data = {
-            "applicant": uuid,
+            "applicant": id,
             "title": request.data.get("title"),
             "content": request.data.get("content"),
         }
