@@ -18,7 +18,6 @@ class ApplicantListApiView(APIView):
         serializer = ApplicantSerializer(applicants, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    # 2. Create
     def post(self, request, *args, **kwargs):
         """
         Create an ApplicantModel
@@ -41,7 +40,6 @@ class ApplicantListApiView(APIView):
 
 
 class ApplicantDetailApiView(APIView):
-    # add permission to check if user is authenticated
     permission_classes = [permissions.IsAuthenticated, ApplicantPermissions]
 
     def get_object(self, id):
@@ -53,8 +51,7 @@ class ApplicantDetailApiView(APIView):
         except ApplicantModel.DoesNotExist:
             return None
 
-    # 3. Retrieve
-    def get(self, request, id, *args, **kwargs):
+    def get(self, request, id: int, *args, **kwargs):
         """
         Retrieves the ApplicantModel with given id
         """
@@ -68,8 +65,7 @@ class ApplicantDetailApiView(APIView):
         serializer = ApplicantSerializer(applicant_instance)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    # 4. Update
-    def put(self, request, id, *args, **kwargs):
+    def put(self, request, id: int, *args, **kwargs):
         """
         Updates the ApplicantModel with given id if exists
         """
@@ -88,8 +84,7 @@ class ApplicantDetailApiView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    # 5. Delete
-    def delete(self, request, id, *args, **kwargs):
+    def delete(self, request, id: int, *args, **kwargs):
         """
         Deletes the ApplicantModel with given id if exists
         """
@@ -104,11 +99,9 @@ class ApplicantDetailApiView(APIView):
 
 
 class ApplicantNoteListApiView(APIView):
-    # add permission to check if user is authenticated
     permission_classes = [permissions.IsAuthenticated, NotePermissions]
 
-    # 1. List all
-    def get(self, request, id, *args, **kwargs):
+    def get(self, request, id: int, *args, **kwargs):
         """
         Return all NoteModels associated with the ApplicantModel of the given
         id
@@ -117,8 +110,7 @@ class ApplicantNoteListApiView(APIView):
         serializer = NoteSerializer(applicant_notes, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    # 2. Create
-    def post(self, request, id, *args, **kwargs):
+    def post(self, request, id: int, *args, **kwargs):
         """
         Creates a NoteModel associated with the ApplicantModel of the given
         id

@@ -5,20 +5,26 @@ from django.core.management.base import BaseCommand
 class Command(BaseCommand):
     def handle(self, **options):
         # now do the things that you want with your models here
-        user0 = User.objects.create_user(
-            "user0", "user0@test.com", "password"
+        allperms = User.objects.create_user(
+            "allperms", "user0@test.com", "password"
         )
-        user1 = User.objects.create_user(
-            "user1", "user1@test.com", "password"
+        viewapplicant = User.objects.create_user(
+            "viewapplicant", "user1@test.com", "password"
         )
-        user2 = User.objects.create_user(
-            "user2", "user2@test.com", "password"
+        createapplicant = User.objects.create_user(
+            "createapplicant", "user2@test.com", "password"
         )
-        user3 = User.objects.create_user(
-            "user3", "user3@test.com", "password"
+        updateapplicant = User.objects.create_user(
+            "updateapplicant", "user3@test.com", "password"
         )
-        user4 = User.objects.create_user(
-            "user4", "user4@test.com", "password"
+        deleteapplicant = User.objects.create_user(
+            "deleteapplicant", "user4@test.com", "password"
+        )
+        viewnote = User.objects.create_user(
+            "viewnote", "user5@test.com", "password"
+        )
+        createnote = User.objects.create_user(
+            "createnote", "user6@test.com", "password"
         )
         view_applicant = Permission.objects.get(codename="view_applicant")
         create_applicant = Permission.objects.get(codename="create_applicant")
@@ -27,7 +33,7 @@ class Command(BaseCommand):
         view_note = Permission.objects.get(codename="view_note")
         create_note = Permission.objects.get(codename="create_note")
 
-        user0.user_permissions.add(
+        allperms.user_permissions.add(
             view_applicant,
             create_applicant,
             update_applicant,
@@ -35,7 +41,9 @@ class Command(BaseCommand):
             view_note,
             create_note,
         )
-        user1.user_permissions.add(view_applicant)
-        user2.user_permissions.add(create_applicant)
-        user3.user_permissions.add(update_applicant)
-        user4.user_permissions.add(delete_applicant)
+        viewapplicant.user_permissions.add(view_applicant)
+        createapplicant.user_permissions.add(create_applicant)
+        updateapplicant.user_permissions.add(update_applicant)
+        deleteapplicant.user_permissions.add(delete_applicant)
+        viewnote.user_permissions.add(delete_applicant)
+        createnote.user_permissions.add(delete_applicant)
