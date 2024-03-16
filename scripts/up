@@ -1,0 +1,3 @@
+docker compose up -d --force-recreate
+docker compose run web /code/manage.py makemigrations
+docker compose run web /code/manage.py migrate
